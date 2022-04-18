@@ -21,7 +21,21 @@ n = int(n)
 ntest  = ceil(pow(2,n)/6)
 ntrain = pow(2,n) - ntest
 
-lst = []
+lst,lines= [],[]
+
 for i in range(pow(2,n)):
     format_str = f'{i:0{n}b}'
-    print(list(map(int,format_str)))
+    lst = list(map(int,format_str))
+    count_true = lst.count(True)
+    lst.append(count_true)
+    lines.append([lst])
+
+import random
+#needs lst
+random.shuffle(lines)
+
+with open(fw_test,'a') as file_train:
+    for line in lines[0:ntest]:
+        # TypeError: write() argument must be str, not list
+        file_train.writ(line)
+
