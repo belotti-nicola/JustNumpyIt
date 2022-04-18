@@ -21,21 +21,24 @@ n = int(n)
 ntest  = ceil(pow(2,n)/6)
 ntrain = pow(2,n) - ntest
 
-lst,lines= [],[]
+print(ntest,ntrain)
+
+bin_operands, lst = [], []
 
 for i in range(pow(2,n)):
     format_str = f'{i:0{n}b}'
-    lst = list(map(int,format_str))
-    count_true = lst.count(True)
-    lst.append(count_true)
-    lines.append([lst])
+    bin_operands = list(map(int,format_str))
+    bin_result = reduce(lambda x, y: x ^ y, bin_operands)
+    lst.append(bin_operands + [bin_result])
 
-import random
-#needs lst
-random.shuffle(lines)
+from random import shuffle
+shuffle(lst)
 
-with open(fw_test,'a') as file_train:
-    for line in lines[0:ntest]:
-        # TypeError: write() argument must be str, not list
-        file_train.writ(line)
+print(len(lst))
+with open(fw_train,'w') as f1:
+    for l in lst[0:ntrain:]:
+        f1.write(reduce(lambda x,y:str(x)+','+str(y),l)+'\n')
 
+with open(fw_test,'w') as f2:
+    for l in lst[ntrain::]:
+        f2.write(reduce(lambda x,y:str(x)+','+str(y),l)+'\n')
