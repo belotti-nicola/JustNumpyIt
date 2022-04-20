@@ -1,11 +1,12 @@
-from ..databases.abstract_database import absDatabase
-from utils.csv import readCSV
+from src.databases.abstract_database import absDatabase
+from src.utils.csv import readCSV
+
 from pathlib import Path
 
 class MNIST(absDatabase):
     def __init__(self) -> None:
-        self.test = readCSV(Path('databases/MNIST/mnist_test.csv'))
-        self.train = readCSV(Path('databases/MNIST/mnist_train.csv'))
+        self.test  = readCSV('src/databases/MNIST/mnist_test.csv')
+        self.train = readCSV('src/databases/MNIST/mnist_train.csv')
 
 
     def getBatchTest(self, dim):
@@ -17,6 +18,3 @@ class MNIST(absDatabase):
     def getDatabaseTrain(self):
         pass
     
-db = MNIST()    
-print(len(db.test))
-print(len(db.train))

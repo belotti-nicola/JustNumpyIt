@@ -1,3 +1,5 @@
-print('WIP')
+from src.databases.MNIST.mnist_db import MNIST
 
-import databases.MNIST.mnist_db
+db = MNIST()    
+print(len(db.test))
+print(len(db.train))
