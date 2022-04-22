@@ -1,5 +1,4 @@
-from src.databases.MNIST.mnist_db import MNIST
+from src.databases.logic_functions.xor_db import Xor
 
-db = MNIST()    
-print(len(db.test))
-print(len(db.train))
+
+Xor()
