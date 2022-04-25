@@ -1,8 +1,6 @@
 from src.databases.abstract_database import absDatabase
 from src.utils.csv import readCSV
 
-from pathlib import Path
-
 class MNIST(absDatabase):
     def __init__(self) -> None:
         self.test  = readCSV('src/databases/MNIST/mnist_test.csv')
