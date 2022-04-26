@@ -13,22 +13,21 @@ for i in range(1, columns*rows +1):
     plt.imshow(img)
 plt.show()
 '''
+from math import floor
 
 class PlotterObj:
 
-    def __init__(self,x,y) -> None:
-        self.x = x
-        self.y = y
-        self.fig, self.axs = plt.subplots(2, 2)
+    def __init__(self,nx,ny) -> None:
+        self.dimX = nx
+        self.dimY = ny
+        self.count = 0
+        self.fig, self.axs = plt.subplots(nx, ny)
     
     def addSubPlot(self,M:np):
-        self.axs[0, 0].plot(x, y)
-        
-for ax in axs.flat:
-    ax.set(xlabel='x-label', ylabel='y-label')
+        x = floor(self.count/self.dimX)
+        y = self.count%self.dimX
+        self.axs[x,y].imshow(M)
+        self.count += 1
 
-# Hide x labels and tick labels for top plots and y ticks for right plots.
-for ax in axs.flat:
-    ax.label_outer()
-
-    def show():
+    def show(self):
+        plt.show()
