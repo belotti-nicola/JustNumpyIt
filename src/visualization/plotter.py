@@ -25,7 +25,7 @@ class PlotterObj:
     
     def addSubPlot(self,M:np):
         x = floor(self.count/self.dimX)
-        y = self.count%self.dimX
+        y = (self.count)%(self.dimX)
         self.axs[x,y].imshow(M)
         self.count += 1
 
