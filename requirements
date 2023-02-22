@@ -1,2 +1,1 @@
--e git+https://github.com/belotti-nicola/JustNumpyIt.git@023eeef30dd56caf076f5d0eea3d65a4776fff84#egg=JUSTNUMPY
 numpy==1.22.3

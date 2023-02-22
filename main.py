@@ -1,22 +1,17 @@
-#from src.visualization.plotter import PlotterObj
-from matplotlib.pyplot import imshow,plot,show
-from src.utils.csv import readCSV
-from src.visualization.plotter import PlotterObj
+import struct 
 
-with open('src/visualization/example.csv') as f:
-    imgs = readCSV(f)
-    img1 = imgs[1][1:785]
-    img1 = img1.reshape(28,28)
-    img2 = imgs[5][1:785]
-    img2 = img2.reshape(28,28)
-    img3 = imgs[9][1:785]
-    img3 = img3.reshape(28,28)
-    img4 = imgs[8][1:785]
-    img4 = img4.reshape(28,28)
-    po = PlotterObj(2,2)
-    po.addSubPlot(img1)
-    po.addSubPlot(img2)
-    po.addSubPlot(img3)
-    po.addSubPlot(img4)
+'''with open("data/MNIST/t10k-images.idx3-ubyte","rb") as f:
+    bytes = f.read(8)
 
-    po.show()
+    magic, size = struct.unpack(">II", bytes)
+
+print(magic) # 2049
+print(size)  # 60000
+'''
+
+with open("data/MNIST/train-images.idx3-ubyte","rb") as f:
+    somelines = f.read(16)
+    print(somelines[0],somelines[1],somelines[2],somelines[3])
+    print(somelines[4],somelines[5],somelines[6],somelines[7])
+    print(somelines[8],somelines[9],somelines[10],somelines[11])
+    print(somelines[12],somelines[13],somelines[14],somelines[15])
