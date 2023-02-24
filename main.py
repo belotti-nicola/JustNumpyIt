@@ -11,7 +11,11 @@ print(size)  # 60000
 
 with open("data/MNIST/train-images.idx3-ubyte","rb") as f:
     somelines = f.read(16)
-    print(somelines[0],somelines[1],somelines[2],somelines[3])
-    print(somelines[4],somelines[5],somelines[6],somelines[7])
-    print(somelines[8],somelines[9],somelines[10],somelines[11])
-    print(somelines[12],somelines[13],somelines[14],somelines[15])
+    str_out = ""
+    i = 1
+    for line in somelines:
+        str_out += str(line) + ("" if i%4 else "\n")
+        i+=1
+
+    print(str_out)
+
