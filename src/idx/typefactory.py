@@ -1,6 +1,3 @@
-import numpy as np
-
-
 class IDXTypeFactory:
     @staticmethod 
     def getType(selector_byte: bytes):

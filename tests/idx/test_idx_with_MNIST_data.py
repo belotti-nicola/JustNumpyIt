@@ -1,6 +1,8 @@
 import pytest
+from functools import reduce
 
 from src.idx.idxhandler import IDX
+
 
 testdata = [
     (IDX("data/MNIST/train-images.idx3-ubyte"),b'\x00\x00\x08\x03',None,3,[60000,28,28]),
@@ -9,32 +11,15 @@ testdata = [
     (IDX("data/MNIST/t10k-labels.idx1-ubyte" ),b'\x00\x00\x08\x01',None,1,[10000])
 ]
 
-@pytest.mark.parametrize("instance,m,d,dd,ddd",testdata)
-def test_MNIST_idx_objects(instance,m,d,dd,ddd):
-    assert instance.magic_number == m
-    assert instance.data_type == d
-    assert instance.data_dimensions == dd
-    assert instance.dimensions == ddd
-'''def test_MNIST_train_labels():
-    obj_to_test = IDX("data/MNIST/train-labels.idx1-ubyte")
-    assert obj_to_test.magic_number == b'\x00\x00\x08\x01'
-    assert obj_to_test.data_type == None
-    assert obj_to_test.data_dimensions == 1
-    assert obj_to_test.dimensions == [10000]
+@pytest.mark.parametrize("instance,magicnumber,datatype,datadimensions,dimensions",testdata)
+def test_MNIST_idx_objects(instance,magicnumber,datatype,datadimensions,dimensions):
+    assert instance.magic_number == magicnumber
+    assert instance.data_type == datatype
+    assert instance.data_dimensions == datadimensions
+    assert instance.dimensions == dimensions
 
-def test_MNIST_test_images():
-    obj_to_test = IDX("data/MNIST/t10k-images.idx3-ubyte")
-    assert obj_to_test.magic_number == b'\x00\x00\x08\x03'
-    assert obj_to_test.data_type == None
-    assert obj_to_test.data_dimensions == 3
-    assert obj_to_test.dimensions == [10000,28,28]
-def test_MNIST_test_labels():
-    obj_to_test = IDX("data/MNIST/train-labels.idx1-ubyte")
-    assert obj_to_test.magic_number == b'\x00\x00\x08\x01'
-    assert obj_to_test.data_type == None
-    assert obj_to_test.data_dimensions == 1
-    assert obj_to_test.dimensions == [10000]
+    
+    assert len(instance._data) == reduce((lambda x,y : x*y),instance.dimensions)
 
+    assert instance.numpy().shape == tuple(instance.dimensions)
 
-
-'''

@@ -1,3 +1,5 @@
+import numpy as np
+
 from .typefactory import IDXTypeFactory
 
 class MalformedIDX(Exception):
@@ -21,12 +23,13 @@ class IDX:
                 self.data_dimensions = byteslist[3]
                 self._fun = IDXTypeFactory.getType(self.type_selector)
 
-                fr.seek(4)
                 for i in range(self.data_dimensions):
                     dim = int.from_bytes(fr.read(4),'big')
                     self.dimensions.append(dim)
-                    fr.seek(4)
+                
                 self._data = fr.read()
 
-
-        
+                
+    def numpy(self):
+        npobject = np.frombuffer(self._data, dtype=np.uint8).reshape(tuple(self.dimensions))
+        return npobject
