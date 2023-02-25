@@ -1,21 +1,16 @@
-import struct 
+from src.idx.idxhandler import IDX
+from src.model.neuralnetwork import NeuralNetwork
 
-'''with open("data/MNIST/t10k-images.idx3-ubyte","rb") as f:
-    bytes = f.read(8)
+data        = IDX('data/MNIST/train-images.idx3-ubyte').numpy()
+labels      = IDX('data/MNIST/train-labels.idx1-ubyte').numpy()
+test_data   = IDX('data/MNIST/t10k-images.idx3-ubyte').numpy()
+test_labels = IDX('data/MNIST/t10k-labels.idx1-ubyte').numpy()
 
-    magic, size = struct.unpack(">II", bytes)
+models = [
+    NeuralNetwork([10,"Relu",10,"Softmax"])
+]
 
-print(magic) # 2049
-print(size)  # 60000
-'''
-
-with open("data/MNIST/train-images.idx3-ubyte","rb") as f:
-    somelines = f.read(16)
-    str_out = ""
-    i = 1
-    for line in somelines:
-        str_out += str(line) + ("" if i%4 else "\n")
-        i+=1
-
-    print(str_out)
+for m in models:
+    m.train(data,labels)
+    m.evaluate(test_data,test_labels)
 
