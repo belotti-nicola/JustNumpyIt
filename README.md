@@ -1,4 +1,0 @@
-# JustNumpyIt
-WIPWIPWIP
-
-ISWEAR

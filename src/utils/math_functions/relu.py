@@ -1,7 +1,9 @@
+import numpy as np
+
 class ReLU():
     @staticmethod
     def fun(x):
-        return max(x,0)
+        return np.maximum(x,0)
     
     @staticmethod
     def der(x):
