@@ -16,14 +16,14 @@ test_labels = IDX('data/MNIST/t10k-labels.idx1-ubyte').numpy()
 #first layer
 A1 = np.ndarray(shape=(10,784), buffer=np.random.randn(10,784))
 b1 = np.dot( 
-        np.ndarray(shape=(10,1), buffer=np.random.randn(10,1)) ,
+        np.ndarray(shape=(10,1)   , buffer=np.random.randn(10,1)) ,
         np.ndarray(shape=(1,60000), buffer=np.ones(shape=(1,60000))) 
-)
+    )
 
 #second layer
 A2 = np.ndarray(shape=(10,10),buffer=np.random.randn(10,10))
 b2 = np.dot( 
-        np.ndarray(shape=(10,1), buffer=np.random.randn(10,1)),
+        np.ndarray(shape=(10,1)   , buffer=np.random.randn(10,1)),
         np.ndarray(shape=(1,60000), buffer=np.ones(shape=(1,60000))) 
     )
 
@@ -35,18 +35,18 @@ def forward_propagation(data,A1,b1,A2,b2):
 def backward_propagation(a,b):
     pass
 
+def label_encoding(vector): 
+    dim = max(vector.shape)
+    substitution_for_vector = np.zeros(vector.shape,dtype=int)
+    for i in range(dim):
+        index = vector[i]
+        substitution_for_vector[i][index] = 1
+    return substitution_for_vector
+
+
+labels_matrix = label_encoding(labels)
 for i in range(ITERATIONS):
     y1,y2 = forward_propagation(data,A1,b1,A2,b2)
-    LOSS = np.dot(
-        np.dot( 
-            np.ndarray(shape=(1,10), buffer=np.ones(shape=(1,10))),
-            y2-labels,
-        ),
-        np.dot(
-            np.ndarray(shape=(1,10), buffer=np.ones(shape=(1,10))),
-            y2-labels,
-        ).T 
-    )
+    LOSS = y2 - labels_matrix
     #backward_propagation(y1,y2)
  
-    print(LOSS)
