@@ -8,5 +8,5 @@ class SoftMax():
         return y / y.sum(axis=None, keepdims=True)
     
     @staticmethod
-    def der(x):
-        return np.dot(fun(x),1-fun(x))   
+    def der(x):       
+        return np.dot(SoftMax.fun(x),1-SoftMax.fun(x).T)   
