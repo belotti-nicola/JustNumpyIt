@@ -7,4 +7,4 @@ class ReLU():
     
     @staticmethod
     def der(x):
-        return 0 if x<= 0 else 1
+        return (x > 0) * 1

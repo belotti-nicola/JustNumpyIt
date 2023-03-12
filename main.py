@@ -38,25 +38,30 @@ def forward_propagation(data,A1,b1,A2,b2):
     Z2 = SoftMax.fun(Y2)
     return Y1,Z1,Y2,Z2
 
-def backward_propagation(y_hat,labels,y1,z1,y2,z2,):
+def backward_propagation(y_hat,labels,y1,z1,y2,z2):
     dZ2 = y_hat - labels
     dA2 = np.dot(
-            dZ2,
-            np.dot(SoftMax.der(y2),y2).T
+            z1,
+            dZ2.T,
+            SoftMax.der(z2)
     )
     db2 = np.dot(
-            dZ2,
-            np.dot(SoftMax.der(y2),np.ones(shape=(10,1))).T
+            np.ones(shape=(10,60000)),
+            dZ2.T,
+            SoftMax.der(z2)
     )
     dA1 = np.dot(
-            dA2,
-            np.dot(ReLU.der(y1),y1)
+            z1,
+            dZ2.T,
+            SoftMax.der(z2)
     )
     db1 = np.dot(
-            dA2,
-            np.dot(ReLU.der(y1),1)
+            np.ones(shape=(10,60000)),
+            dZ2.T,
+            SoftMax.der(z2)
     )
 
+    print([e.shape for e in [dA1,db1,dA2,db2]])
     return dA1,db1,dA2,db2
 
 
@@ -70,6 +75,7 @@ def label_encoding(vector):
 
 
 labels_matrix = label_encoding(labels).T
+
 for i in range(ITERATIONS):
     y1,Z1,y2,Z2 = forward_propagation(data,A1,b1,A2,b2)
     LOSS = ((y2 - labels_matrix)**2).mean(axis=1)
