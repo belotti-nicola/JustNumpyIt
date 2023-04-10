@@ -2,7 +2,7 @@ import numpy as np
 from src.utils.math_functions.softmax import SoftMax
 from src.utils.math_functions.meansquareerror import MSE
 
-eta = .001
+eta = .02
 
 A = np.array([[2,1],[-1,2]])
 x = np.array([[0],[1]])
@@ -35,4 +35,7 @@ print("db")
 print(db)
 
 print()
-print(eta*((dA[0][1]*dA[0][1])+(dA[1][1]*dA[1][1])+(db[0]*db[0])+(db[1]*db[1])))
+print(eta*(
+            (dA[0][1]*dA[0][1])+(dA[1][1]*dA[1][1])+(db[0]*db[0])+(db[1]*db[1])
+        )
+    )
