@@ -1,0 +1,38 @@
+import numpy as np
+from src.utils.math_functions.softmax import SoftMax
+from src.utils.math_functions.meansquareerror import MSE
+
+eta = .001
+
+A = np.array([[2,1],[-1,2]])
+x = np.array([[0],[1]])
+b = np.array([[0],[0]])
+
+label = np.array([[0],[1]])
+
+z = np.dot(A,x)
+y_hat = SoftMax.fun(z)
+LOSS_1 = np.dot((y_hat - label).T,(y_hat - label)) / 2
+print(" first loss :",LOSS_1[0][0])
+
+delta = np.multiply(y_hat - label,SoftMax.der(z))
+dA = np.dot(delta,x.T)
+db = delta
+
+A = A - eta*dA
+b = b - eta*db
+
+z = np.dot(A,x)
+y_hat = SoftMax.fun(z)
+LOSS_2 = np.dot((y_hat - label).T,(y_hat - label)) / 2
+print("second loss :",LOSS_2[0][0])
+
+print("LOSS2-LOSS1 :",np.abs((LOSS_2-LOSS_1)[0][0]))
+
+print("dA")
+print(dA)
+print("db")
+print(db)
+
+print()
+print(eta*((dA[0][1]*dA[0][1])+(dA[1][1]*dA[1][1])+(db[0]*db[0])+(db[1]*db[1])))

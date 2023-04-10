@@ -9,4 +9,7 @@ class SoftMax():
     
     @staticmethod
     def der(x):       
-        return np.dot(SoftMax.fun(x),1-SoftMax.fun(x).T)   
+        return np.multiply(
+                    SoftMax.fun(x),
+                    SoftMax.fun(1-x)
+                )
