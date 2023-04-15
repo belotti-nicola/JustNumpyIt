@@ -6,7 +6,7 @@ from src.utils.math_functions.softmax import SoftMax
 
 import numpy as np
 
-ITERATIONS = 1
+ITERATIONS = 100
 eta = .008
 
 
@@ -25,14 +25,25 @@ def forward_propagation(data,A1,b1,A2,b2):
 
 def backward_propagation(data,labels,y1,z1,y2,z2):
     y_hat = z2
-    delta = np.multiply( y_hat - labels , SoftMax.fun(y2) )
-    dA2 = np.dot( delta, z1.T )
-    db2 = delta
+    delta =  np.multiply( y_hat - labels , z2 )
 
-    delta = np.multiply( delta, ReLU.der(y1) ) 
-    dA1 = np.dot( delta, data.T )
-    db1 = delta
+    dA2 = np.zeros((10,10),np.double)
+    for i in range(60000):
+        dA2 += np.dot(
+                delta[:,[i]],
+                z2[:,[i]].T
+        )
+    db2 = fun(delta)
 
+    delta = np.multiply( delta, ReLU.der(y2) ) 
+
+    dA1 = np.zeros((10,784),np.double)
+    for i in range(60000):
+        dA1 += np.dot(
+                delta[:,[i]],
+                data[:,[i]].T
+        )    
+    db1 = fun(delta)
     return dA1,db1,dA2,db2
 
 def label_encoding(vector):
@@ -43,6 +54,14 @@ def label_encoding(vector):
         retVal[index][i] = 1
     return retVal
 
+def cost_computation(y_hats,labels):
+    err = np.zeros((1,1),np.double)
+    for i in range(60000):
+        err += np.dot(
+                (y_hats[:,[i]] - labels[:,[i]]).T,
+                y_hats[:,[i]] - labels[:,[i]]
+        )
+    return err[0]/60000
 
 data        = IDX('data/MNIST/train-images.idx3-ubyte').numpy().reshape(60000,784).T
 labels      = IDX('data/MNIST/train-labels.idx1-ubyte').numpy().reshape(60000,1).T
@@ -61,12 +80,12 @@ labels = label_encoding(labels)
 LOSSES = []
 for i in range(ITERATIONS):
     Y1,Z1,Y2,Z2 = forward_propagation(data,A1,b1,A2,b2)
-    dA1,dA2,db1,db2 = backward_propagation(data,labels,Y1,Z1,Y2,Z2)
-
-    print(dA1.shape == (10,60000) ,db1.shape == (10, 60000))
-    print(dA2.shape == (784,60000),db2.shape == (784,60000))
-    A2 = A2 - eta * fun(dA2)
-    b2 = b2 - eta * fun(db2)
-    A1 = A1 - eta * fun(dA1)
-    b1 = b1 - eta * fun(db1)
-
+    dA1,db1,dA2,db2 = backward_propagation(data,labels,Y1,Z1,Y2,Z2)
+ 
+    A2 = A2 - eta * dA2
+    b2 = b2 - eta * db2
+    A1 = A1 - eta * dA1
+    b1 = b1 - eta * db1
+    
+    COST = cost_computation(Y2,labels)
+    if i%10 == 0: print(COST)
