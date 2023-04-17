@@ -3,9 +3,7 @@ import numpy as np
 class SoftMax():
     @staticmethod
     def fun(x):
-        x = x - x.max(axis=None, keepdims=True)
-        y = np.exp(x)
-        return y / y.sum(axis=None, keepdims=True)
+        return(np.exp(x - np.max(x)) / np.exp(x - np.max(x)).sum())
     
     @staticmethod
     def der(x):       
@@ -13,3 +11,4 @@ class SoftMax():
                     SoftMax.fun(x),
                     SoftMax.fun(1-x)
                 )
+
