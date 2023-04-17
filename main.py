@@ -6,7 +6,9 @@ from src.utils.math_functions.softmax import SoftMax
 
 import numpy as np
 
-ITERATIONS = 2
+import datetime
+
+ITERATIONS = 1000
 eta = .001
 
 
@@ -85,12 +87,12 @@ for i in range(ITERATIONS):
     dA1,db1,dA2,db2 = backward_propagation(data,labels,Y1,Z1,Y2,Z2)
 
 
-    A2 = A2 - eta * dA2
-    b2 = b2 - eta * db2
-    A1 = A1 - eta * dA1
-    b1 = b1 - eta * db1
+    A2 = A2 + eta * dA2
+    b2 = b2 + eta * db2
+    A1 = A1 + eta * dA1
+    b1 = b1 + eta * db1
 
     COST = cost_computation(Y2,labels)
     LOSSES.append(COST)
 
-    print(COST)
+    if(i%50 == 0 ): print(COST,datetime.datetime.now())
