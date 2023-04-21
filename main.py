@@ -8,9 +8,14 @@ import numpy as np
 
 import datetime
 
-ITERATIONS = 1000
+ITERATIONS = 10
 eta = .001
 
+def accuracy_computation(Y,L):
+    counter = 0
+    for i in range(60000):
+        counter += np.argmax(Y[:,i]) == np.argmax(L[:,i])
+    return counter / 600
 
 def fun(y):
     return np.sum(y,axis=1)
@@ -93,6 +98,7 @@ for i in range(ITERATIONS):
     b1 = b1 + eta * db1
 
     COST = cost_computation(Y2,labels)
+    accuracy = accuracy_computation(Y2,labels)
     LOSSES.append(COST)
 
-    if(i%50 == 0 ): print(COST,datetime.datetime.now())
+    if( i%1 == 0 ): print(COST,datetime.datetime.now(),accuracy)
