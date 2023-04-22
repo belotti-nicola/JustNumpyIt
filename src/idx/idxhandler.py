@@ -33,3 +33,14 @@ class IDX:
     def numpy(self):
         npobject = np.frombuffer(self._data, dtype=np.uint8).reshape(tuple(self.dimensions))
         return npobject
+    
+    def dump(self):
+        npobject = np.frombuffer(self._data, dtype=np.uint8).reshape(tuple(self.dimensions))
+        npobject = npobject[0]
+        retVal = ""
+        for i in range(28):
+            for j in range(28):
+                retVal += " " if npobject[i][j] < 120 else "."
+            retVal += "\n"
+        
+        return retVal[:-1]

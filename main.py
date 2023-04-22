@@ -85,6 +85,7 @@ b1 = np.ndarray(shape=(10,)   ,  buffer=np.random.randn(10,1))
 A2 = np.ndarray(shape=(10,10)  ,  buffer=np.random.randn(10,10))
 b2 = np.ndarray(shape=(10,)   ,  buffer=np.random.randn(10,1))
 
+
 labels = label_encoding(labels)
 LOSSES = []
 for i in range(ITERATIONS):
