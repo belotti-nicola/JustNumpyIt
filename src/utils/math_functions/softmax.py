@@ -13,4 +13,3 @@ class SoftMax():
                     SoftMax.fun(x),
                     SoftMax.fun(1-x)
                 )
-
