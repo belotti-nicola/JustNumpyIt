@@ -8,7 +8,7 @@ import numpy as np
 
 import datetime
 
-ITERATIONS = 10
+ITERATIONS = 100
 eta = .001
 
 def accuracy_computation(Y,L):
@@ -44,7 +44,10 @@ def backward_propagation(data,labels,Y1,Z1,Y2,Z2):
         )
     db2 = fun(delta)
 
-    delta = np.multiply( delta, Z1 ) 
+    delta = np.multiply(
+        np.dot(A2,delta), 
+        Z1
+    )
     dA1 = np.zeros((10,784),np.double)
     for i in range(60000):
         dA1 += np.dot(
@@ -93,10 +96,10 @@ for i in range(ITERATIONS):
     dA1,db1,dA2,db2 = backward_propagation(data,labels,Y1,Z1,Y2,Z2)
 
 
-    A2 = A2 + eta * dA2
-    b2 = b2 + eta * db2
-    A1 = A1 + eta * dA1
-    b1 = b1 + eta * db1
+    A2 = A2 - eta * dA2
+    b2 = b2 - eta * db2
+    A1 = A1 - eta * dA1
+    b1 = b1 - eta * db1
 
     COST = cost_computation(Y2,labels)
     accuracy = accuracy_computation(Y2,labels)
