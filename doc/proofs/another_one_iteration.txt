@@ -1,0 +1,37 @@
+import numpy as np
+import cupy as cp
+from src.utils.math_functions.softmax import SoftMax
+from src.utils.math_functions.meansquareerror import MSE
+import math
+
+A = np.array([[1,-1,2],[-1,1,-1]],np.double)
+b = np.array([2, 2],np.double).reshape(2,1)
+
+x1 = np.array([1,-2,-1],np.double).reshape(3,1)
+l1 = np.array([0,1]).reshape(2,1)
+x2 = np.array([3,-2,-3],np.double).reshape(3,1)
+l2 = np.array([0,1]).reshape(2,1)
+
+data   = [x1,x2]
+labels = [l1,l2]
+
+C = 0
+
+dA = np.zeros((2,3))
+db = np.zeros((2,1))
+for i in range(2):
+    x = data[i]
+    Z = np.dot(A,x)+b
+    Y_hat = SoftMax.fun(Z)
+    l = labels[i]
+    C += np.sqrt(
+            np.power(Y_hat[0]-l[0],2)+
+            np.power(Y_hat[1]-l[1],2)
+        )
+    
+    delta = np.multiply(Y_hat,1-Y_hat)
+    dA += np.dot(
+        np.multiply(Y_hat - l,delta),
+        x.T
+    )
+    db += delta
