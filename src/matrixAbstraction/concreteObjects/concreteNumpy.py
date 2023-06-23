@@ -4,7 +4,7 @@ import numpy as np
 
 class NumpyWrapper(ABCMatrix):
     def __init__(self,rows,columns) -> None:
-        pass
+        self._data = np.empty((rows,columns))
     
     @staticmethod
     def createRandomWeightsMatrix(rows,columns):
@@ -12,23 +12,23 @@ class NumpyWrapper(ABCMatrix):
 
     @staticmethod
     def createRandomBiasesMatrix(rows,columns):
-        data = self._data + obj._data
-        retWrapp = NumpyWrapper(obj._data.shape[0],obj._data.shape[1])
-        retWrapp._data = data
-        return retWrapp
+        pass
     
     def __add__(self, obj):
         data = self._data + obj._data
-        retWrapp = NumpyWrapper(obj._data.shape[0],obj._data.shape[1])
+        retWrapp = NumpyWrapper(data.shape[0],data.shape[1])
         retWrapp._data = data
         return retWrapp
     
     def __sub__(self, obj):
-        return self._data - obj._data
-    
+        if isinstance(obj, NumpyWrapper): #TODO check always
+            return self._data - obj._data
+        else:
+            raise(Exception("value error:"))
+
     def __mul__(self, obj):
         data = np.dot(self._data,obj._data)
-        retWrapp = NumpyWrapper(data.shape)
+        retWrapp = NumpyWrapper(obj._data.shape[0],obj._data.shape[1])
         retWrapp._data = data
         return retWrapp
     
