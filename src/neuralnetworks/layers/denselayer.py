@@ -1,25 +1,29 @@
-class Dense:
-    def __init__(self,inputSize, outputSize,dataTypeSelector) -> None:
-        self.weights = createWeightsMatrix(
-            inputSize,
-            outputSize
-        )
-        self.biases  = createBiasesMatrix(
-            outputSize,
-        )
-        
-    def forward(self,input):
-        Y = dotProduct(
-            self.weights,
-            input
-        )
-        return Y + self.biases
+import numpy as np
+
+
+class DenseL:
+    def __init__(self,inputSize, outputSize) -> None:
+        self.A = np.random.randn(outputSize,inputSize)
+        self.b = np.random.randn(outputSize,1)
+
+    def setA(self,newA):
+        self.A = newA
+    def setb(self,newb):
+        self.b = newb
+    def getA(self):
+        return self.A
+    def getb(self):
+        return self.b
     
-    def backward(self,input,output,error):
-        delta = hadamaartProduct(output,error)
-        deltaW = dotProduct(
-            delta,
-            self.weights.T
-        )
-        deltaB = delta
-        return 
+
+    def forward(self,input):
+        self.input = input
+        self.output = np.dot(self.A,input) + self.b
+        return self.output
+    
+    def backward(self,output_gradient):
+        dA = np.dot(self.A.T,output_gradient)
+        db = output_gradient
+
+        return dA,db       
+
