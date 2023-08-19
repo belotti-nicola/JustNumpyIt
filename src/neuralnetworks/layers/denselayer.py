@@ -7,9 +7,11 @@ class DenseL:
         self.b = np.random.randn(outputSize,1)
 
     def setA(self,newA):
-        self.A = newA
+        if(newA.shape == self.A.shape):
+            self.A = newA
     def setb(self,newb):
-        self.b = newb
+        if(newb.shape == self.b.shape):
+            self.b = newb
     def getA(self):
         return self.A
     def getb(self):
@@ -22,8 +24,7 @@ class DenseL:
         return self.output
     
     def backward(self,output_gradient):
-        dA = np.dot(self.A.T,output_gradient)
-        db = output_gradient
-
-        return dA,db       
+        self.dA = np.dot(self.A.T,output_gradient)
+        self.db = output_gradient
+        return np.dot(self.A.T,output_gradient)
 

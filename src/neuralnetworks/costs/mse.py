@@ -2,9 +2,9 @@ from src.math_functions.mse import MSE
 
 
 class MSEC:
-    def forward(y,y_hat):
-        for prediction,expected in zip(y,y_hat):
-            MSE.compute(prediction,expected)
+    def forward(self,y,y_hat):
+        self.output = MSE.compute(y,y_hat)
+        return self.output
 
-    def backward(prediction,expected):
-        return prediction-expected
+    def backward(self,y,y_hat):
+        return y-y_hat

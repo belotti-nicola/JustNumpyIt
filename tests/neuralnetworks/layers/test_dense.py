@@ -25,7 +25,7 @@ testdata = [
 
 
 def test_forward():
-    L = DenseL(3,4)
+    L = DenseL(4,3)
     L.setA(A)
     L.setb(b)
 
@@ -35,13 +35,13 @@ def test_forward():
         assert np.array_equal(L.forward(x),y )
 
 def test_backward():
-    L = DenseL(3,4)
+    L = DenseL(4,3)
     L.setA(A)
     L.setb(b)
     for t in testdata:
         x = np.array(t["x"],np.double).reshape(4,1)
-        dA, db = L.backward(np.ones((3,1)))
-        assert np.array_equal(dA,
+        L.backward(np.ones((3,1)))
+        assert np.array_equal(L.dA,
                               np.dot(A.T,np.ones((3,1))))
-        assert np.array_equal(db,np.ones((3,1)))
+        assert np.array_equal(L.db,np.ones((3,1)))
 

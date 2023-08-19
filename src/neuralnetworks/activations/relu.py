@@ -2,10 +2,10 @@ import numpy as np
 from src.math_functions.relu import ReLU
 
 class ReLUL:
-    @staticmethod
-    def forward(input):
-        return ReLU.compute(input)
-    @staticmethod
+    def forward(self,input):
+        self.output = ReLU.compute(input)
+        return self.output
+    
     def backward(self,output_gradient):
         pass    
 

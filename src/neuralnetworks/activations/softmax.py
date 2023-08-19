@@ -2,10 +2,16 @@ import numpy as np
 from src.math_functions.softmax import SoftMax
 
 class SoftMaxL:
-    @staticmethod
-    def forward(input):
-        return SoftMax.compute(input)
-    @staticmethod
+
+    def forward(self,input):
+        self.input = input
+        self.output = SoftMax.compute(input) 
+        return self.output
+
     def backward(self,output_gradient):
-        pass    
+        shape = output_gradient.shape
+        ones = np.ones(shape)
+        return np.multiply(self.output,
+                           (ones-self.output)
+                           )
 

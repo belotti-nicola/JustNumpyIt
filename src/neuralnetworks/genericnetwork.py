@@ -11,21 +11,20 @@ class NeuralNetwork:
         tmp = data
         for layer in self.layers:
             tmp = layer.forward(tmp)
+        self.output = tmp
         return tmp
     
-    def backward(self,desired_output):
-        output = self.layers[-1].output
-        self.cost.compute(output,desired_output)
+    def getLayers(self):
+        return self.layers
+    def getReversedLayers(self):
+        return self.layers[::-1]
 
-        grad = self.cost.backward()
+    
+    def backward(self,y):
+        output = self.layers[-1].output
+        self.cost.forward(output,y)
+
+        grad = self.cost.backward(output,y)
         for layer in self.layers[::-1]:
             grad = layer.backward(grad)
 
-    def evaluate(self,TESTDATA,TESTLABELS):
-        correct_guesses = 0
-        for sample,label in zip(TESTDATA,TESTLABELS):
-            output = self.forward(sample)
-            predict = np.argmax(output)
-            correct_guesses += 1 if predict == label else 0
-
-        return correct_guesses
