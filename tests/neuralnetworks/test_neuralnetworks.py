@@ -73,3 +73,20 @@ def test_one_step_cost_reduction(inp,_unused,label):
     C2 = NN.cost.forward(out2,y)
 
     assert C2 - C1 > 0
+
+@pytest.mark.parametrize("inp,_unused,label",testdata)
+def test_one_step_cost_reduction_dA(inp,_unused,label):
+    x = np.array(inp,np.double).reshape(4,1)
+    y = np.array(label,np.double).reshape(3,1)
+
+    out1 = NN.forward(x)
+    C1 = NN.cost.forward(out1,y)
+
+    NN.backward(y)
+
+    newA = NN.layers[0].A + .1 * NN.layers[0].dA
+    NN.layers[0].setA(newA)
+    out2 = NN.forward(x)
+    C2 = NN.cost.forward(out2,y)
+
+    assert C2 - C1 > 0
