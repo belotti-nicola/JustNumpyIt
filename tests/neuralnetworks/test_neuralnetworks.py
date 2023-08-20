@@ -49,7 +49,7 @@ def test_backward(inp,_unused,label):
     
     NN.forward(x)
     y = np.array(label,np.double).reshape(3,1)
-    NN.backward(label)
+    NN.backward(y)
 
 
     assert NN.layers[0].dA is not None
