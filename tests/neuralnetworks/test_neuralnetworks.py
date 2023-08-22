@@ -39,23 +39,29 @@ def test_forward(inp,outp,_unused):
     y = NN.forward(x)
     expected = np.array(outp,np.double).reshape(3,1)
     assert y.shape == (3,1)
-    assert y[0] - expected[0] < .01
-    assert y[1] - expected[1] < .01
-    assert y[2] - expected[2] < .01
+    assert np.absolute(y[0] - expected[0]) < .001
+    assert np.absolute(y[1] - expected[1]) < .001
+    assert np.absolute(y[2] - expected[2]) < .001
 
 @pytest.mark.parametrize("inp,_unused,label",testdata)
 def test_backward(inp,_unused,label):
     x = np.array(inp,np.double).reshape(4,1)
     
-    NN.forward(x)
+    out = NN.forward(x)
     y = np.array(label,np.double).reshape(3,1)
     NN.backward(y)
 
+    SMderivative = NN.layers[1].backward(out)
+    expected_db = np.multiply(
+        np.multiply(SMderivative,1-SMderivative),
+        out-y
+    )
 
     assert NN.layers[0].dA is not None
-    assert NN.layers[0].db is not None
-    assert NN.layers[1] is not None
-    assert NN.layers[1] is not None
+    assert np.absolute(NN.layers[0].db[0] - expected_db[0]) < .01
+    assert np.absolute(NN.layers[0].db[1] - expected_db[1]) < .01
+    assert np.absolute(NN.layers[0].db[2] - expected_db[2]) < .01
+
 
 @pytest.mark.parametrize("inp,_unused,label",testdata)
 def test_one_step_cost_reduction(inp,_unused,label):
