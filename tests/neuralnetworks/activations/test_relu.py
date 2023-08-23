@@ -22,4 +22,10 @@ def test_forward(inp,outp):
 
 @pytest.mark.parametrize("inp,outp",testdata)
 def test_backward(inp,outp):
-    assert True
+    x = np.array(inp,np.double).reshape(4,1)
+    y = np.array(outp,np.double).reshape(4,1)
+    computed = activationLayer.forward(x)
+    assert np.linalg.norm(computed[0] - outp[0]) < .001
+    assert np.linalg.norm(computed[1] - outp[1]) < .001
+    assert np.linalg.norm(computed[2] - outp[2]) < .001
+    assert np.linalg.norm(computed[3] - outp[3]) < .001

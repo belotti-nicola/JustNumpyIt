@@ -56,8 +56,30 @@ def test_backward(inp,_unused,label):
         np.multiply(SMderivative,1-SMderivative),
         out-y
     )
+    expected_dA = np.dot(
+        expected_db,
+        NN.layers[0].input.T
+    )
 
-    assert NN.layers[0].dA is not None
+    assert NN.layers[0].dA.shape == expected_dA.shape
+
+    assert np.absolute(NN.layers[0].dA[0][0] - expected_dA[0][0]) < .01
+    assert np.absolute(NN.layers[0].dA[0][1] - expected_dA[0][1]) < .01
+    assert np.absolute(NN.layers[0].dA[0][2] - expected_dA[0][2]) < .01
+    assert np.absolute(NN.layers[0].dA[0][3] - expected_dA[0][0]) < .01
+
+    assert np.absolute(NN.layers[0].dA[1][0] - expected_dA[1][0]) < .01
+    assert np.absolute(NN.layers[0].dA[1][1] - expected_dA[1][1]) < .01
+    assert np.absolute(NN.layers[0].dA[1][2] - expected_dA[1][2]) < .01
+    assert np.absolute(NN.layers[0].dA[1][3] - expected_dA[1][3]) < .01
+
+    assert np.absolute(NN.layers[0].dA[2][0] - expected_dA[2][0]) < .01
+    assert np.absolute(NN.layers[0].dA[2][1] - expected_dA[2][1]) < .01
+    assert np.absolute(NN.layers[0].dA[2][2] - expected_dA[2][2]) < .01
+    assert np.absolute(NN.layers[0].dA[2][3] - expected_dA[2][3]) < .01
+
+
+
     assert np.absolute(NN.layers[0].db[0] - expected_db[0]) < .01
     assert np.absolute(NN.layers[0].db[1] - expected_db[1]) < .01
     assert np.absolute(NN.layers[0].db[2] - expected_db[2]) < .01
