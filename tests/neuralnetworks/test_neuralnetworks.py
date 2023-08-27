@@ -1,6 +1,6 @@
 import pytest
 
-from src.neuralnetworks.genericnetwork import NeuralNetwork
+from src.neuralnetworks.concrete.genericnetwork import NeuralNetwork
 from src.neuralnetworks.layers.denselayer import DenseL
 from src.neuralnetworks.activations.relu import ReLUL
 from src.neuralnetworks.activations.softmax import SoftMaxL

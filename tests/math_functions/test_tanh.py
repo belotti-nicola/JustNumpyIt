@@ -14,7 +14,7 @@ testdata = [
         },
 ]
 
-def test_sigmoid():
+def test_tanh():
 
     for t in testdata:
         x = np.array(t["x"],np.double)

@@ -8,11 +8,8 @@ class TanhL:
         return self.output
     def backward(self,output_gradient):
         shape = self.input.shape
-        tanh_square = np.multiply(
-            self.input,
-            self.input
-        )
-        return np.multiply(
-            output_gradient,
-            np.ones(shape)-tanh_square
-        )
+        
+        tanh_der = np.ones(shape) - np.multiply(self.output,self.output)
+
+
+        return np.multiply(tanh_der,output_gradient)
