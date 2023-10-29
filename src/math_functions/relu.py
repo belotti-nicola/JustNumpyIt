@@ -1,5 +1,4 @@
 import numpy as np
-from src.math_functions.matrix_enums import A
 
 class ReLU():
     @staticmethod

@@ -1,7 +1,7 @@
 import pytest
 from functools import reduce
 
-from src.idx.idxhandler import IDX
+from src.data.idx.idxhandler import IDX
 
 
 testdata = [
